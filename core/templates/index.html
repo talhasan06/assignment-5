@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head_title %}Book Exchange{% endblock %} 
+{% block content %}
+
+<div class="d-flex px-5 pt-5 container">
+    <h1 class="text-center flex items-center text-2xl ms-4">
+      <span class="border-b-4 border-gray-500">All Categories</span>
+    </h1>
+    <div class="flex space-x-4 my-3">
+      <button class="btn btn-ghost">
+        <a href="{% url 'home' %}">All</a>
+      </button>
+      {% for cat in category %}
+        <div>
+          <button class="btn btn-ghost">
+            <a href="{% url 'category_wise_post' cat.slug %}">{{cat.name}}</a>
+          </button>
+        </div>
+      {% endfor %}
+    </div>
+
+  {% for book in data %}
+    <div class="card card-side bg-base-100 shadow-xl my-6 p-3">
+      <figure><img src={{book.image.url}} alt="book"/></figure>
+      <div class="card-body">
+        <h2 class="card-title">{{book.title}}</h2>
+        <p>{{book.description}}</p>
+        <p>Category:
+          {% for cat in book.categories.all %}
+            <button class="btn btn-warning btn-sm pointer-events-none">{{cat.name}}</button>
+          {% endfor %}
+        </p>
+        <div class="card-actions justify-end">
+          <button class="btn btn-primary">
+            <a href="{% url 'book_detail' book.id %}" class="no-underline">view details</a>
+          </button>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}

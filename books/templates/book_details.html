@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content%}
+
+<div class="my-4">
+    <div class="flex">
+      <img src="{{book.image.url}}" alt="" style="width:400px;">
+      <div class="ms-20">
+        <h5 class="text-3xl mb-4">{{book.title}}</h5>
+        <p class="text-base mb-4">{{book.description}}</p>
+        <p class="text-lg mb-4">Author : <span class="text-base">{{book.author}}</span></p>
+        <p class="text-lg mb-4">Price : <span class="text-base">{{book.borrowing_price}}$</span></p>
+        <p class="mb-4"><span class="text-lg">Category :</span>
+            {% for cat in book.categories.all %}
+            <button class="btn btn-warning btn-sm pointer-events-none">{{cat.name}}</button>
+            {% endfor %}
+        </p>
+        <form action="{% url 'borrow_book' book.id %}" method="post">
+          {% csrf_token %}
+          <button class="btn btn-primary text-white" style="width:120px;">Borrow Now</button>
+        </form>
+      </div>
+    </div>
+</div>
+<!-- show all reviews -->
+<div class="my-4">
+  <h2 class="text-2xl mt-8 mb-4">All Reviews</h2>
+  {% if reviews %}
+        <ul>
+            {% for review in reviews %}
+                <li>
+                    <p>Rating: {{ review.rating }}</p>
+                    <p>Comment: {{ review.comment }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No reviews yet.</p>
+    {% endif %}
+</div>
+<!-- submit reviews -->
+<div class="my-4">
+  <h2 class="text-2xl mb-4">Write a Review</h2>
+  <form method="post" action="{% url 'book_detail' id=book.id %}">
+      {% csrf_token %}
+      <div class="mb-4">
+          <label for="id_rating" class="block text-gray-700 text-sm font-bold mb-2">Rating:</label>
+          {{ review_form.rating }}
+      </div>
+      <div class="mb-4">
+        <label for="id_comment" class="block text-gray-700 text-sm font-bold mb-2">Comment:</label>
+        {{ review_form.comment }}
+      </div>
+      <button class="btn btn-primary text-white">Submit Review</button>
+  </form>
+</div>
+
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'base.html' %} 
+{% load static %} 
+
+{% block head_title %}
+    User Profile
+{% endblock %} 
+
+{% block content %} 
+    <h1 class="font-bold text-center text-3xl py-7">
+        <span class="border-b-4 border-gray-500">Borrowed Books</span>
+    </h1>
+    <div class="grid grid-cols-4 gap-4">
+        {% for borrowed_book in borrowed_books %}
+            <div class="card w-50 bg-base-100 shadow-xl pt-7 border-2">
+                <figure><img src="{{borrowed_book.book.image.url}}" alt="Shoes" style="height: 200px;"/></figure>
+                <div class="card-body">
+                <h2 class="card-title">{{ borrowed_book.book.title }}</h2>
+                <p>Borrowing Date: {{ borrowed_book.borrowing_date }}</p>
+                <form action="{% url 'borrow_book' borrowed_book.book.id %}" method="post">
+                    {% csrf_token %}
+                    <button class="btn btn-secondary text-white" style="width:120px;" name="return_book">
+                        Return Book
+                    </button>
+                </form>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

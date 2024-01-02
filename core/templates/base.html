@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.24/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+    <title>
+        {% block head_title %}Book Exchange{% endblock %}
+    </title>
+    <style>
+        footer {
+            position: fixed !important;
+            bottom: 0 !important;
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    
+    {% include 'navbar.html' %}
+    <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 flex-grow py-7 mb-10">
+        {% block body%}
+            {% include 'messages.html' %}
+            {% block content %}
+            {% endblock %}
+        {% endblock %}
+    </div>
+    {% include 'footer.html' %}
+    
+</body>
+</html>
